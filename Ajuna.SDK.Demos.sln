@@ -1,8 +1,34 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ajuna.SDK.Demos.RestService", "Ajuna.SDK.ScaffoldedProjects\Ajuna.SDK.Demos.RestService\Ajuna.SDK.Demos.RestService.csproj", "{220C7265-AC65-499F-BF76-1D9C540824CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ajuna.SDK.Demos.NetApi", "Ajuna.SDK.ScaffoldedProjects\Ajuna.SDK.Demos.NetApi\Ajuna.SDK.Demos.NetApi.csproj", "{88B80495-F90C-4307-8C9F-AC7D3DD9D028}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ajuna.SDK.Demos.Subscriptions", "Ajuna.SDK.Demos.Subscriptions\Ajuna.SDK.Demos.Subscriptions.csproj", "{3E646AEB-24E8-4327-99F3-7A453379CD93}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ajuna.SDK.Demos.RestClient", "Ajuna.SDK.ScaffoldedProjects\Ajuna.SDK.Demos.RestClient\Ajuna.SDK.Demos.RestClient.csproj", "{C81941E8-F06A-4190-8609-168B6BAF3BD6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{220C7265-AC65-499F-BF76-1D9C540824CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{220C7265-AC65-499F-BF76-1D9C540824CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{220C7265-AC65-499F-BF76-1D9C540824CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{220C7265-AC65-499F-BF76-1D9C540824CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88B80495-F90C-4307-8C9F-AC7D3DD9D028}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88B80495-F90C-4307-8C9F-AC7D3DD9D028}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88B80495-F90C-4307-8C9F-AC7D3DD9D028}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88B80495-F90C-4307-8C9F-AC7D3DD9D028}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E646AEB-24E8-4327-99F3-7A453379CD93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E646AEB-24E8-4327-99F3-7A453379CD93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E646AEB-24E8-4327-99F3-7A453379CD93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E646AEB-24E8-4327-99F3-7A453379CD93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C81941E8-F06A-4190-8609-168B6BAF3BD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C81941E8-F06A-4190-8609-168B6BAF3BD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C81941E8-F06A-4190-8609-168B6BAF3BD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C81941E8-F06A-4190-8609-168B6BAF3BD6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
