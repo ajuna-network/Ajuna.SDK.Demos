@@ -1,0 +1,3 @@
+[submodule "Ajuna.SDK.ScaffoldedProjects"]
+	path = Ajuna.SDK.ScaffoldedProjects
+	url = https://github.com/ajuna-network/Ajuna.SDK.ScaffoldedProjects.git
