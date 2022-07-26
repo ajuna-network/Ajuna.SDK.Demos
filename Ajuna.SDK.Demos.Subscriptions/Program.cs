@@ -53,7 +53,7 @@ namespace Ajuna.SDK.Demos.Subscriptions
             }
          
             // Close Websocket Connection 
-            subscriptionClient.CloseAsync(WebSocketCloseStatus.Empty,"",CancellationToken.None).Wait();
+            await subscriptionClient.CloseAsync(WebSocketCloseStatus.Empty,"",CancellationToken.None);
         }
         
         private static string GetBaseAddress()
