@@ -7,4 +7,12 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Ajuna.NetApi" Version="0.1.17" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Ajuna.SDK.ScaffoldedProjects\Ajuna.SDK.Demos.NetApi\Ajuna.SDK.Demos.NetApi.csproj" />
+    </ItemGroup>
+
 </Project>
