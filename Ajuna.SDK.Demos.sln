@@ -14,6 +14,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ajuna.SDK.Demos.DirectSubsc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ajuna.SDK.Demos.ServiceSubscription", "Ajuna.SDK.Demos.ServiceSubscription\Ajuna.SDK.Demos.ServiceSubscription.csproj", "{1B6CB52A-7509-44EA-849D-8946CC400783}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ajuna.SDK.Demos.DirectPolling", "Ajuna.SDK.Demos.DirectPolling\Ajuna.SDK.Demos.DirectPolling.csproj", "{87413D54-6E79-4B66-BDFD-99E08C33A1D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ajuna.SDK.Demos.ServicePolling", "Ajuna.SDK.Demos.ServicePolling\Ajuna.SDK.Demos.ServicePolling.csproj", "{19D91FC5-5364-491E-A379-F8BB54143AB3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,9 +44,19 @@ Global
 		{1B6CB52A-7509-44EA-849D-8946CC400783}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B6CB52A-7509-44EA-849D-8946CC400783}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B6CB52A-7509-44EA-849D-8946CC400783}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87413D54-6E79-4B66-BDFD-99E08C33A1D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87413D54-6E79-4B66-BDFD-99E08C33A1D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87413D54-6E79-4B66-BDFD-99E08C33A1D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87413D54-6E79-4B66-BDFD-99E08C33A1D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19D91FC5-5364-491E-A379-F8BB54143AB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19D91FC5-5364-491E-A379-F8BB54143AB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19D91FC5-5364-491E-A379-F8BB54143AB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19D91FC5-5364-491E-A379-F8BB54143AB3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0BB94EFF-6CDA-4443-874A-D7BEBAF62B1B} = {8F7A7C5C-9E1A-438E-A775-392372999674}
 		{1B6CB52A-7509-44EA-849D-8946CC400783} = {BA242F01-D914-4A6F-9426-107459936255}
+		{87413D54-6E79-4B66-BDFD-99E08C33A1D6} = {8F7A7C5C-9E1A-438E-A775-392372999674}
+		{19D91FC5-5364-491E-A379-F8BB54143AB3} = {BA242F01-D914-4A6F-9426-107459936255}
 	EndGlobalSection
 EndGlobal
