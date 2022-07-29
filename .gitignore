@@ -3,10 +3,6 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-
-# macOS DS_Store file
-.DS_Store 
-
 # User-specific files
 *.rsuser
 *.suo
@@ -365,3 +361,9 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Ajuna.DotNet launch settings
+Tools/Ajuna.DotNet/Properties/launchSettings.json
+
+# macOS DS_Store file
+.DS_Store
