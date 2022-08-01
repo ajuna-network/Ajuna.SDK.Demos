@@ -6,7 +6,7 @@ Ajuna SDK is a .NET toolchain featuring .NET framework extensions and code gener
 ## What is the Ajuna.SDK.Demos Repository
 This repository contains basic examples of how this .NET toolchain can be used. 
 
-**IMPORTANT:** This repository is currently in a Work in Progress state since we will be constantly enriching it in the coming weeks/months.
+**IMPORTANT:** it is currently in a Work in Progress state since we will be constantly enriching it in the coming weeks/months.
 
 ## Demos Structure
 
