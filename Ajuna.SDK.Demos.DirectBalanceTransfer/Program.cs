@@ -38,9 +38,7 @@ namespace Ajuna.SDK.Demos.DirectBalanceTransfer
         public static Account Bob => Account.Build(KeyType.Sr25519, MiniSecretBob.ExpandToSecret().ToBytes(),
             MiniSecretBob.GetPair().Public.Key);
 
-
         private static string NodeUrl = "ws://127.0.0.1:9944";
-
 
         public static async Task Main(string[] args)
         {
