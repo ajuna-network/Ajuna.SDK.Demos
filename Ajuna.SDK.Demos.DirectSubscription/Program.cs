@@ -1,7 +1,6 @@
 ﻿using Ajuna.NetApi;
 using Ajuna.NetApi.Model.Rpc;
-using Ajuna.SDK.Demos.NetApi.Generated;
-using Serilog;
+using SubstrateNET.NetApi.Generated;
 
 
 namespace Ajuna.SDK.Demos.DirectSubscription
@@ -27,7 +26,7 @@ namespace Ajuna.SDK.Demos.DirectSubscription
                return;
 
            // Subscribe to the changes of System.Number by registering a Callback for each Number Change  
-           await client.SubscribeStorageKeyAsync(Ajuna.SDK.Demos.NetApi.Generated.Model.FrameSystem.SystemStorage.NumberParams(),
+           await client.SubscribeStorageKeyAsync(SubstrateNET.NetApi.Generated.Model.FrameSystem.SystemStorage.NumberParams(),
                    CallBackNumberChange, new CancellationTokenSource().Token);
 
            Console.ReadLine();

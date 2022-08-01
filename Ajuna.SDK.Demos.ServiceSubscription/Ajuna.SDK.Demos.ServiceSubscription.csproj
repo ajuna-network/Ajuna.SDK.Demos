@@ -8,8 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Ajuna.SDK.ScaffoldedProjects\Ajuna.SDK.Demos.NetApi\Ajuna.SDK.Demos.NetApi.csproj" />
-      <ProjectReference Include="..\Ajuna.SDK.ScaffoldedProjects\Ajuna.SDK.Demos.RestClient\Ajuna.SDK.Demos.RestClient.csproj" />
+      <ProjectReference Include="..\SubstrateNET\SubstrateNET.RestClient\SubstrateNET.RestClient.csproj" />
     </ItemGroup>
 
 </Project>

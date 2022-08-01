@@ -1,7 +1,7 @@
 ﻿using System.Net.WebSockets;
-using Ajuna.SDK.Demos.RestClient;
-using Ajuna.SDK.Demos.RestClient.Generated.Clients;
 using Ajuna.ServiceLayer.Model;
+using SubstrateNET.RestClient;
+using SubstrateNET.RestClient.Generated.Clients;
 
 namespace Ajuna.SDK.Demos.ServiceSubscription
 {

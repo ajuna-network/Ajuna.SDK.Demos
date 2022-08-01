@@ -1,9 +1,8 @@
-﻿using System.Net.WebSockets;
-using Ajuna.NetApi;
-using Ajuna.SDK.Demos.NetApi.Generated;
-using Ajuna.SDK.Demos.NetApi.Generated.Model.FrameSystem;
+﻿using Ajuna.NetApi;
+using SubstrateNET.NetApi.Generated;
+using SubstrateNET.NetApi.Generated.Model.FrameSystem;
 
-namespace Ajuna.SDK.Demos.ServicePolling
+namespace Ajuna.SDK.Demos.DirectPolling
 {
     internal static class Program
     {

@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Ajuna.SDK.ScaffoldedProjects\Ajuna.SDK.Demos.NetApi\Ajuna.SDK.Demos.NetApi.csproj" />
+      <ProjectReference Include="..\SubstrateNET\SubstrateNET.NetApi\SubstrateNET.NetApi.csproj" />
     </ItemGroup>
 
 </Project>
