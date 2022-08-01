@@ -1,0 +1,3 @@
+[submodule "SubstrateNET"]
+	path = SubstrateNET
+	url = https://github.com/ajuna-network/SubstrateNET.git
