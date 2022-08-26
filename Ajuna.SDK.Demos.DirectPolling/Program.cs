@@ -1,4 +1,5 @@
 ﻿using Ajuna.NetApi;
+using Serilog;
 using SubstrateNET.NetApi.Generated;
 using SubstrateNET.NetApi.Generated.Model.FrameSystem;
 
@@ -6,6 +7,11 @@ namespace Ajuna.SDK.Demos.DirectPolling
 {
     internal static class Program
     {
+        private static readonly ILogger Logger = new LoggerConfiguration()
+            .MinimumLevel.Verbose()
+            .WriteTo.Console()
+            .CreateLogger();
+        
         private static string NodeUrl = "ws://127.0.0.1:9944";
         public static async Task Main(string[] args)
         {
@@ -13,12 +19,12 @@ namespace Ajuna.SDK.Demos.DirectPolling
             var client = new SubstrateClientExt(new Uri(NodeUrl));
 
             // Display Client Connection Status before connecting
-            Console.WriteLine( $"Client Connection Status: {GetClientConnectionStatus(client)}");
+            Logger.Information( $"Client Connection Status: {GetClientConnectionStatus(client)}");
 
             await client.ConnectAsync();
            
             // Display Client Connection Status after connecting
-            Console.WriteLine( client.IsConnected ? "Client connected successfully" : "Failed to connect to node. Exiting...");
+            Logger.Information( client.IsConnected ? "Client connected successfully" : "Failed to connect to node. Exiting...");
             
             if (!client.IsConnected)
                 return;
@@ -26,13 +32,14 @@ namespace Ajuna.SDK.Demos.DirectPolling
             // Poll for Number Changes
             var continuePolling = true;
             
-            Console.WriteLine($"Starting Number Value Polling");
+            Logger.Information($"Starting Block Number Polling");
 
             while (continuePolling)
             {
                 string parameters = SystemStorage.NumberParams();
-                var num = await client.GetStorageAsync<Ajuna.NetApi.Model.Types.Primitive.U32>(parameters, new CancellationToken());                
-                Console.WriteLine($"Number is: {num.Value}");
+                var num = await client.GetStorageAsync<Ajuna.NetApi.Model.Types.Primitive.U32>(parameters, new CancellationToken());   
+                
+                Logger.Information($"Block Number is: {num.Value}");
 
                 Thread.Sleep(2000);
                  
@@ -42,14 +49,12 @@ namespace Ajuna.SDK.Demos.DirectPolling
                 }
             }
             
-            Console.WriteLine($"Number Value Polling finished");
-            
+            Logger.Information($"Block Number Value Polling finished");
         }
 
         private static string GetClientConnectionStatus(SubstrateClient client)
         {
             return client.IsConnected ? "Connected" : "Not connected";
-
         }
     }
 }
