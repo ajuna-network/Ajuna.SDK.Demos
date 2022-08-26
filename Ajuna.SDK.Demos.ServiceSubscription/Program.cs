@@ -1,5 +1,7 @@
 ﻿using System.Net.WebSockets;
+using Ajuna.NetApi;
 using Ajuna.ServiceLayer.Model;
+using Serilog;
 using SubstrateNET.RestClient;
 using SubstrateNET.RestClient.Generated.Clients;
 
@@ -7,6 +9,11 @@ namespace Ajuna.SDK.Demos.ServiceSubscription
 {
     internal static class Program
     {
+        private static readonly ILogger Logger = new LoggerConfiguration()
+            .MinimumLevel.Verbose()
+            .WriteTo.Console()
+            .CreateLogger();
+        
         // Websocket and API addresses of the Service layer - You need Ajuna.SDK.Demos.RestService running for this console app to run
         private static String WebsocketUrl = "ws://localhost:61752/ws";
         private static String ServiceUrl = "http://localhost:61752/";
@@ -35,12 +42,12 @@ namespace Ajuna.SDK.Demos.ServiceSubscription
             // Continue only if Subscription has succeeded
             if (subscribedSuccessfully)
             {
-                Console.WriteLine("Successfully Subscribed. Now listening for Storage Changes...");
-                Console.WriteLine("Press ESC to exit");
+                Logger.Information("Successfully Subscribed. Now listening for Storage Changes...");
+                Logger.Information("Press ESC to exit");
             }
             else
             {
-                Console.WriteLine("Subscription failed. Exiting...");
+                Logger.Information("Subscription failed. Exiting...");
                 return;
             }
 
@@ -62,7 +69,10 @@ namespace Ajuna.SDK.Demos.ServiceSubscription
 
         private static void HandleChange(StorageChangeMessage message)
         {
-            Console.WriteLine("New Change: " + message.Data);
+            var primitiveBlockNumber = new NetApi.Model.Types.Primitive.U32();
+            primitiveBlockNumber.Create(Utils.HexToByteArray(message.Data));
+
+            Logger.Information("New Block Number: " + primitiveBlockNumber.Value);
         }
     }
 }

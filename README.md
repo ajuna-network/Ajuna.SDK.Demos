@@ -54,7 +54,7 @@ cargo build -p node-cli --release
 
 In the _'Node Access via Service Layer'_ Demos, you will also need a running `RestService` for you `RestClient` to interact with.  
 
-In orde to achieve this, just open a terminal within the  `SubstrateNET.RestService` folder and execute:
+In order to achieve this, just open a terminal within the  `SubstrateNET.RestService` folder and execute:
 
 ```bash
 dotnet run

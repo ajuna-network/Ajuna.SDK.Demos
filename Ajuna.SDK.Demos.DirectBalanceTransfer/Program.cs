@@ -1,11 +1,10 @@
-﻿using System.Text;
-using Ajuna.NetApi;
+﻿using Ajuna.NetApi;
 using Ajuna.NetApi.Model.Extrinsics;
 using Ajuna.NetApi.Model.Types;
 using Ajuna.NetApi.Model.Types.Base;
 using Ajuna.NetApi.Model.Types.Primitive;
-using Newtonsoft.Json.Linq;
 using Schnorrkel.Keys;
+using Serilog;
 using SubstrateNET.NetApi.Generated;
 using SubstrateNET.NetApi.Generated.Model.SpCore;
 using SubstrateNET.NetApi.Generated.Model.SpRuntime;
@@ -37,7 +36,12 @@ namespace Ajuna.SDK.Demos.DirectBalanceTransfer
 
         public static Account Bob => Account.Build(KeyType.Sr25519, MiniSecretBob.ExpandToSecret().ToBytes(),
             MiniSecretBob.GetPair().Public.Key);
-
+        
+        private static readonly ILogger Logger = new LoggerConfiguration()
+            .MinimumLevel.Verbose()
+            .WriteTo.Console()
+            .CreateLogger();
+        
         private static string NodeUrl = "ws://127.0.0.1:9944";
 
         public static async Task Main(string[] args)
@@ -46,19 +50,17 @@ namespace Ajuna.SDK.Demos.DirectBalanceTransfer
             var client = new SubstrateClientExt(new Uri(NodeUrl));
 
             // Display Client Connection Status before connecting
-            Console.WriteLine($"Client Connection Status: {GetClientConnectionStatus(client)}");
+            Logger.Information($"Client Connection Status: {GetClientConnectionStatus(client)}");
 
             await client.ConnectAsync();
 
             // Display Client Connection Status after connecting
-            Console.WriteLine(client.IsConnected
+            Logger.Information(client.IsConnected
                 ? "Client connected successfully"
                 : "Failed to connect to node. Exiting...");
 
             if (!client.IsConnected)
                 return;
-
-            var blockData = await client.Chain.GetBlockAsync();
 
             await SubmitTransfer(client);
         }
@@ -70,19 +72,24 @@ namespace Ajuna.SDK.Demos.DirectBalanceTransfer
 
             var accountBob = new AccountId32();
             accountBob.Create(Utils.GetPublicKeyFrom(Bob.Value));
-
+           
+            // Get Alice's Balance
             var accountInfoAlice = await client.SystemStorage.Account(accountAlice, CancellationToken.None);
-            Console.WriteLine($"Alice Free Balance before transaction = {accountInfoAlice.Data.Free.Value.ToString()}");
-
+            Logger.Information($"Alice Free Balance before transaction = {accountInfoAlice.Data.Free.Value.ToString()}");
+           
+            // Get Bob's Balance
             var accountInfoBob = await client.SystemStorage.Account(accountBob, CancellationToken.None);
-            Console.WriteLine($"Bob Free Balance before transaction = {accountInfoBob.Data.Free.Value.ToString()}");
+            Logger.Information($"Bob Free Balance before transaction = {accountInfoBob.Data.Free.Value.ToString()}");
 
+            // Instantiate a MultiAddress for Bob
             var multiAddressBob = new EnumMultiAddress();
             multiAddressBob.Create(MultiAddress.Id, accountBob);
 
+            // Amount to be transferred
             var amount = new BaseCom<U128>();
             amount.Create(190000);
 
+            // Create Extrinsic Method to be transmitted
             var extrinsicMethod =
                 SubstrateNET.NetApi.Generated.Model.PalletBalances.BalancesCalls.Transfer(multiAddressBob, amount);
 
@@ -93,10 +100,10 @@ namespace Ajuna.SDK.Demos.DirectBalanceTransfer
             Thread.Sleep(10000);
 
             accountInfoAlice = await client.SystemStorage.Account(accountAlice, CancellationToken.None);
-            Console.WriteLine($"Alice Free Balance after transaction = {accountInfoAlice.Data.Free.Value}");
+            Logger.Information($"Alice Free Balance after transaction = {accountInfoAlice.Data.Free.Value}");
 
             accountInfoBob = await client.SystemStorage.Account(accountBob, CancellationToken.None);
-            Console.WriteLine($"Bob Free Balance after transaction = {accountInfoBob.Data.Free.Value}");
+            Logger.Information($"Bob Free Balance after transaction = {accountInfoBob.Data.Free.Value}");
         }
 
         private static string GetClientConnectionStatus(SubstrateClient client)

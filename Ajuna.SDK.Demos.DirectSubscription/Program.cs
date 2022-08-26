@@ -1,5 +1,6 @@
 ﻿using Ajuna.NetApi;
 using Ajuna.NetApi.Model.Rpc;
+using Serilog;
 using SubstrateNET.NetApi.Generated;
 
 
@@ -7,6 +8,11 @@ namespace Ajuna.SDK.Demos.DirectSubscription
 {
     internal static class Program
     {
+        private static readonly ILogger Logger = new LoggerConfiguration()
+            .MinimumLevel.Verbose()
+            .WriteTo.Console()
+            .CreateLogger();
+        
         private static string NodeUrl = "ws://127.0.0.1:9944";
 
         public static async Task Main(string[] args)
@@ -15,19 +21,19 @@ namespace Ajuna.SDK.Demos.DirectSubscription
            var client = new SubstrateClientExt(new Uri(NodeUrl));
 
            // Display Client Connection Status before connecting
-           Console.WriteLine( $"Client Connection Status: {GetClientConnectionStatus(client)}");
+           Logger.Information( $"Client Connection Status: {GetClientConnectionStatus(client)}");
 
            await client.ConnectAsync();
            
            // Display Client Connection Status after connecting
-           Console.WriteLine( client.IsConnected ? "Client connected successfully" : "Failed to connect to node. Exiting...");
+           Logger.Information( client.IsConnected ? "Client connected successfully" : "Failed to connect to node. Exiting...");
 
            if (!client.IsConnected)
                return;
 
            // Subscribe to the changes of System.Number by registering a Callback for each Number Change  
            await client.SubscribeStorageKeyAsync(SubstrateNET.NetApi.Generated.Model.FrameSystem.SystemStorage.NumberParams(),
-                   CallBackNumberChange, new CancellationTokenSource().Token);
+                   CallBackNumberChange, CancellationToken.None);
 
            Console.ReadLine();
         }
@@ -43,18 +49,22 @@ namespace Ajuna.SDK.Demos.DirectSubscription
                 || storageChangeSet.Changes.Length == 0 
                 || storageChangeSet.Changes[0].Length < 2)
             {
-                // Logger.Warn("Couldn't update account informations. Please check 'CallBackAccountChange'");
+                Logger.Error("Couldn't update account information. Please check 'CallBackAccountChange'");
                 return;
             }
 
-            var numberInfoString = storageChangeSet.Changes[0][1];
+            
+            var hexString = storageChangeSet.Changes[0][1];
 
-            if (string.IsNullOrEmpty(numberInfoString))
+            if (string.IsNullOrEmpty(hexString))
             {
                 return;
             }
+            
+            var primitiveBlockNumber = new NetApi.Model.Types.Primitive.U32();
+            primitiveBlockNumber.Create(Utils.HexToByteArray(hexString));
 
-            Console.WriteLine("New Number Change: " + numberInfoString);
+            Logger.Information("New Block Number: " + primitiveBlockNumber.Value);
         }
 
         private static string GetClientConnectionStatus(SubstrateClient client)
