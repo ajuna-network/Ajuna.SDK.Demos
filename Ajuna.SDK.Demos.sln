@@ -20,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubstrateNET.RestService", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ajuna.SDK.Demos.DirectBalanceTransfer", "Ajuna.SDK.Demos.DirectBalanceTransfer\Ajuna.SDK.Demos.DirectBalanceTransfer.csproj", "{5FBF6048-9795-4D02-B91E-469B0D9BE855}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scaffolded Projects", "Scaffolded Projects", "{A63849F5-EB0C-4694-8E55-3A26D17936A5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generated Projects", "Generated Projects", "{A63849F5-EB0C-4694-8E55-3A26D17936A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
