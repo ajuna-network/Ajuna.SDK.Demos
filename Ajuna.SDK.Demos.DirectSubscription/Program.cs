@@ -2,6 +2,7 @@
 using Ajuna.NetApi.Model.Rpc;
 using Serilog;
 using SubstrateNET.NetApi.Generated;
+using SubstrateNET.NetApi.Generated.Storage;
 
 
 namespace Ajuna.SDK.Demos.DirectSubscription
@@ -32,7 +33,7 @@ namespace Ajuna.SDK.Demos.DirectSubscription
                return;
 
            // Subscribe to the changes of System.Number by registering a Callback for each Number Change  
-           await client.SubscribeStorageKeyAsync(SubstrateNET.NetApi.Generated.Model.FrameSystem.SystemStorage.NumberParams(),
+           await client.SubscribeStorageKeyAsync(SystemStorage.NumberParams(),
                    CallBackNumberChange, CancellationToken.None);
 
            Console.ReadLine();
@@ -64,7 +65,7 @@ namespace Ajuna.SDK.Demos.DirectSubscription
             var primitiveBlockNumber = new NetApi.Model.Types.Primitive.U32();
             primitiveBlockNumber.Create(Utils.HexToByteArray(hexString));
 
-            Logger.Information("New Block Number: " + primitiveBlockNumber.Value);
+            Logger.Information($"New Block Number: {primitiveBlockNumber.Value}" );
         }
 
         private static string GetClientConnectionStatus(SubstrateClient client)

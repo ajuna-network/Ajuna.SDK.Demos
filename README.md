@@ -21,7 +21,7 @@ This folder contains the generated projects of the Ajuna.SDK:
 - [SubstrateNET.RestService](https://github.com/ajuna-network/Ajuna.SDK#ajunarestservice)
 - [SubstrateNET.RestClient](https://github.com/ajuna-network/Ajuna.SDK#ajunarestclient)
 
-These projects were generated against [Substrate Node](https://github.com/paritytech/substrate) (monthly-2022-07).
+These projects were generated against [Substrate Node](https://github.com/paritytech/substrate) (monthly-2022-11).
 
 #### Node Direct Access
 This folder contains three demos that use our `SubstrateClientExt` (part of `SubstrateNET.NetApi`) to directly interact with the node.
@@ -42,10 +42,10 @@ This folder contains two demos that use a `RestClient` (part of `SubstrateNET.Re
 The first and most important prerequisite is to have a running Substrate node.  
 
 ### Spin up a local substrate node
-Currently you should find the most recent monthly build with a pre-generated tag in this [repo](https://github.com/paritytech/substrate), so make sure you chose a supported monthly substrate tag (ex. monthly-2022-07)
+Currently you should find the most recent monthly build with a pre-generated tag in this [repo](https://github.com/paritytech/substrate), so make sure you chose a supported monthly substrate tag (ex. monthly-2022-11)
 
 ```bash
-git clone -b monthly-2022-07 --single-branch https://github.com/paritytech/substrate.git
+git clone -b monthly-2022-11 --single-branch https://github.com/paritytech/substrate.git
 cargo build -p node-cli --release
 ./target/release/substrate --dev
 ```
