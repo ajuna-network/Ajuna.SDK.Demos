@@ -1,7 +1,7 @@
 ﻿using Ajuna.NetApi;
 using Serilog;
 using SubstrateNET.NetApi.Generated;
-using SubstrateNET.NetApi.Generated.Model.FrameSystem;
+using SubstrateNET.NetApi.Generated.Storage;
 
 namespace Ajuna.SDK.Demos.DirectPolling
 {

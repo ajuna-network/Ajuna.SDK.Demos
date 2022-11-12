@@ -6,8 +6,9 @@ using Ajuna.NetApi.Model.Types.Primitive;
 using Schnorrkel.Keys;
 using Serilog;
 using SubstrateNET.NetApi.Generated;
-using SubstrateNET.NetApi.Generated.Model.SpCore;
-using SubstrateNET.NetApi.Generated.Model.SpRuntime;
+using SubstrateNET.NetApi.Generated.Model.sp_core.crypto;
+using SubstrateNET.NetApi.Generated.Model.sp_runtime.multiaddress;
+using SubstrateNET.NetApi.Generated.Storage;
 
 namespace Ajuna.SDK.Demos.DirectBalanceTransfer
 {
@@ -46,6 +47,9 @@ namespace Ajuna.SDK.Demos.DirectBalanceTransfer
 
         public static async Task Main(string[] args)
         {
+            var s = Utils.HexToByteArray("0x1cbfa731117739305198b39df275e37205edba9ff85f75c55990d92dda1cfebd");
+            var something = Utils.Bytes2Value(s,littleEndian:false);
+            
             // Instantiate the client
             var client = new SubstrateClientExt(new Uri(NodeUrl));
 
@@ -91,7 +95,7 @@ namespace Ajuna.SDK.Demos.DirectBalanceTransfer
 
             // Create Extrinsic Method to be transmitted
             var extrinsicMethod =
-                SubstrateNET.NetApi.Generated.Model.PalletBalances.BalancesCalls.Transfer(multiAddressBob, amount);
+                BalancesCalls.Transfer(multiAddressBob, amount);
 
             // Alice to Bob Transaction
             await client.Author.SubmitExtrinsicAsync(extrinsicMethod, Alice, new ChargeAssetTxPayment(0, 0), 128,
