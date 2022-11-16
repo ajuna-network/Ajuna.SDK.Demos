@@ -19,16 +19,8 @@ namespace Ajuna.SDK.Demos.DirectSubscription
         public static async Task Main(string[] args)
         {
             // Instantiate the client
-           var client = new SubstrateClientExt(new Uri(NodeUrl));
-
-           // Display Client Connection Status before connecting
-           Logger.Information( $"Client Connection Status: {GetClientConnectionStatus(client)}");
-
-           await client.ConnectAsync();
-           
-           // Display Client Connection Status after connecting
-           Logger.Information( client.IsConnected ? "Client connected successfully" : "Failed to connect to node. Exiting...");
-
+            var client = await InstantiateClientAndConnectAsync();
+            
            if (!client.IsConnected)
                return;
 
@@ -66,6 +58,22 @@ namespace Ajuna.SDK.Demos.DirectSubscription
             primitiveBlockNumber.Create(Utils.HexToByteArray(hexString));
 
             Logger.Information($"New Block Number: {primitiveBlockNumber.Value}" );
+        }
+        
+        private static async Task<SubstrateClientExt>  InstantiateClientAndConnectAsync()
+        {
+            // Instantiate the client
+            var client = new SubstrateClientExt(new Uri(NodeUrl));
+
+            // Display Client Connection Status before connecting
+            Logger.Information( $"Client Connection Status: {GetClientConnectionStatus(client)}");
+
+            await client.ConnectAsync();
+           
+            // Display Client Connection Status after connecting
+            Logger.Information(client.IsConnected ? "Client connected successfully" : "Failed to connect to node. Exiting...");
+
+            return client;
         }
 
         private static string GetClientConnectionStatus(SubstrateClient client)

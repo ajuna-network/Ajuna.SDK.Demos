@@ -42,25 +42,17 @@ namespace Ajuna.SDK.Demos.ServiceSubscription
             // Continue only if Subscription has succeeded
             if (subscribedSuccessfully)
             {
-                Logger.Information("Successfully Subscribed. Now listening for Storage Changes...");
-                Logger.Information("Press ESC to exit");
+                Logger.Information("Successfully Subscribed. Now listening for Storage Changes..."); ;
             }
             else
             {
                 Logger.Information("Subscription failed. Exiting...");
                 return;
             }
-
-            // Keep reading the stream waiting for Storage Changes and exit when the user presses the ESCAPE key
-            bool listenForStorageChanges = true;
-            while (listenForStorageChanges)
+            
+            while (true)
             {
                 await subscriptionClient.ReceiveNextAsync(CancellationToken.None);
-
-                if (Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Escape)
-                {
-                    listenForStorageChanges = false;
-                }
             }
          
             // Close Websocket Connection 

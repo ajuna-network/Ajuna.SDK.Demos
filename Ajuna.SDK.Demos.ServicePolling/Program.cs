@@ -15,8 +15,8 @@ namespace Ajuna.SDK.Demos.ServiceSubscription
             .CreateLogger();
         
         // Websocket and API addresses of the Service layer - You need Ajuna.SDK.Demos.RestService running for this console app to run
-        private static String WebsocketUrl = "ws://localhost:61752/ws";
-        private static String ServiceUrl = "http://localhost:61752/";
+        private static readonly String WebsocketUrl = "ws://localhost:61752/ws";
+        private static readonly String ServiceUrl = "http://localhost:61752/";
 
         public static async Task Main(string[] args)
         {
@@ -33,29 +33,14 @@ namespace Ajuna.SDK.Demos.ServiceSubscription
             // Create SystemControllerClient
             var systemControllerClient = new SystemControllerClient(httpClient, subscriptionClient);
             
-            // Poll for Number Changes
-            var continuePolling = true;
-            
             Logger.Information($"Starting Number Value Polling");
 
-            while (continuePolling)
+            while (true)
             {
                  var newNumber = await systemControllerClient.GetNumber();
                  Logger.Information($"Number is: {newNumber.Value}");
                  Thread.Sleep(2000);
-                 
-                 if (Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Escape)
-                 {
-                     continuePolling = false;
-                 }
             }
-            
-            Logger.Information($"Number Value Polling finished");
-        }
-
-        private static void HandleChange(StorageChangeMessage message)
-        {
-            Logger.Information("New Change: " + message.Data);
         }
     }
 }
