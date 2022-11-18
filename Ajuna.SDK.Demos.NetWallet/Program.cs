@@ -55,20 +55,7 @@ namespace Ajuna.SDK.Demos.NetWallet
             if (!client.IsConnected)
                 return;
 
-            await DoEverything(client);
-        }
-        
-        internal static string CreateMnemonicSeed()
-        {
-            var randomBytes = new byte[16];
-            new Random().NextBytes(randomBytes);
-            var mnemonicSeed = string.Join(' ', Mnemonic.MnemonicFromEntropy(randomBytes, Mnemonic.BIP39Wordlist.English));
-            return mnemonicSeed;
-        }
-
-        public static async Task DoEverything(SubstrateClientExt client)
-        {
-            // Setup Storage
+            // Setup for locally storing the wallet file
             SystemInteraction.ReadData = f => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, f));
             SystemInteraction.DataExists = f => File.Exists(Path.Combine(Environment.CurrentDirectory, f));
             SystemInteraction.ReadPersistent = f => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, f));
@@ -81,8 +68,6 @@ namespace Ajuna.SDK.Demos.NetWallet
             wallet.Create(_walletPassword, CreateMnemonicSeed(), KeyType.Sr25519,
                 Mnemonic.BIP39Wordlist.English, _walletName);
                 
-                
-                //Create(_walletPassword, walletName:_walletName);
 
             if (!wallet.IsCreated)
             {
@@ -92,7 +77,7 @@ namespace Ajuna.SDK.Demos.NetWallet
             
             Logger.Information("Wallet created successfully");
 
-            // Load the wallet we created 
+            // Load walled from storage 
             var ajunaWallet = new Wallet();
             ajunaWallet.Load(_walletName);
             
@@ -117,16 +102,14 @@ namespace Ajuna.SDK.Demos.NetWallet
             accountWallet.Create(Utils.GetPublicKeyFrom(ajunaWallet.Account.Value));
             
             // Get Alice's Balance
+            // Wallet' Account's has not been created yet and does not have a Balance
             var accountInfoAlice = await client.SystemStorage.Account(accountAlice, CancellationToken.None);
             Logger.Information($"Alice Free Balance before transaction = {accountInfoAlice.Data.Free.Value.ToString()}");
            
-             // Get Wallet Account's Balance
-             // var accountInfoWalletBeforeBeingCreated = await client.SystemStorage.Account(accountWallet, CancellationToken.None);
-             // Logger.Information($"Wallets Account Free Balance before transaction = {accountInfoWalletBeforeBeingCreated.Data.Free.Value.ToString()}");
-            
             // Transfer Money from Alice to Wallet
             await TransferAsync(client, Alice, wallet.Account, 400000000000000);
-            
+           
+            // Wait for the transfer to complete
             Thread.Sleep(8000);
 
             // Let's check the accounts again after the transfer
@@ -151,16 +134,9 @@ namespace Ajuna.SDK.Demos.NetWallet
 
             Console.ReadLine();
         }
-
-        // public async Task GetBalanceAsync(SubstrateClientExt client, Account account)
-        // {
-        //     accountInfoAlice = await client.SystemStorage.Account(, CancellationToken.None);
-        //     Logger.Information($"Alice Free Balance after transaction = {accountInfoAlice.Data.Free.Value}");
-        // }
         
-        public static async Task TransferAsync(SubstrateClientExt client, Account senderAccount,Account recipientAccount,  long amount)
+        private static async Task TransferAsync(SubstrateClientExt client, Account senderAccount,Account recipientAccount,  long amount)
         {
-        
             if (!client.IsConnected)
             {
                 Logger.Debug("Not connected!");
@@ -175,15 +151,20 @@ namespace Ajuna.SDK.Demos.NetWallet
             var baseCampactU128 = new BaseCom<U128>();
             baseCampactU128.Create(amount);
         
-            var transferKeepAlive = BalancesCalls.TransferKeepAlive(multiAddress, baseCampactU128);
-            
-            var extrinsicMethod =
+            var balanceTransferMethod =
                 BalancesCalls.Transfer(multiAddress, baseCampactU128);
         
-            var subscriptionId = await client.Author.SubmitExtrinsicAsync(
-                // transferKeepAlive,
-                extrinsicMethod,
+            await client.Author.SubmitExtrinsicAsync(
+                balanceTransferMethod,
                 senderAccount, new ChargeAssetTxPayment(0, 0), 64, CancellationToken.None);
+        }
+        
+        private static string CreateMnemonicSeed()
+        {
+            var randomBytes = new byte[16];
+            new Random().NextBytes(randomBytes);
+            var mnemonicSeed = string.Join(' ', Mnemonic.MnemonicFromEntropy(randomBytes, Mnemonic.BIP39Wordlist.English));
+            return mnemonicSeed;
         }
 
         private static string GetClientConnectionStatus(SubstrateClient client)
