@@ -47,8 +47,6 @@ namespace Ajuna.SDK.Demos.DirectBalanceTransfer
 
         public static async Task Main(string[] args)
         {
-            var s = Utils.HexToByteArray("0x1cbfa731117739305198b39df275e37205edba9ff85f75c55990d92dda1cfebd");
-
             // Instantiate the client
             var client = new SubstrateClientExt(new Uri(NodeUrl));
 
