@@ -48,7 +48,7 @@ namespace Ajuna.SDK.Demos.DirectBalanceTransfer
         public static async Task Main(string[] args)
         {
             // Instantiate the client
-            var client = new SubstrateClientExt(new Uri(NodeUrl));
+            SubstrateClientExt client = new SubstrateClientExt(new Uri(NodeUrl));
 
             // Display Client Connection Status before connecting
             Logger.Information($"Client Connection Status: {GetClientConnectionStatus(client)}");

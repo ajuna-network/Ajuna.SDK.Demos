@@ -19,7 +19,7 @@ namespace Ajuna.SDK.Demos.DirectSubscription
         public static async Task Main(string[] args)
         {
             // Instantiate the client
-            var client = await InstantiateClientAndConnectAsync();
+            SubstrateClientExt client = await InstantiateClientAndConnectAsync();
             
            if (!client.IsConnected)
                return;
@@ -45,7 +45,6 @@ namespace Ajuna.SDK.Demos.DirectSubscription
                 Logger.Error("Couldn't update account information. Please check 'CallBackAccountChange'");
                 return;
             }
-
             
             var hexString = storageChangeSet.Changes[0][1];
 

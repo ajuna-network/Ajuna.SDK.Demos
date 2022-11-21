@@ -14,7 +14,7 @@ namespace Ajuna.SDK.Demos.DirectPolling
         private static string NodeUrl = "ws://127.0.0.1:9944";
         public static async Task Main(string[] args)
         {
-            var client = await InstantiateClientAndConnectAsync();
+            SubstrateClientExt client = await InstantiateClientAndConnectAsync();
                
             if (!client.IsConnected)
                 return;
@@ -23,8 +23,8 @@ namespace Ajuna.SDK.Demos.DirectPolling
 
             while (true)
             {
-                var scaleNum = await client.SystemStorage.Number(CancellationToken.None);
-                Logger.Information("Block Number: {BlockNumber}", scaleNum.Value);
+                var primitiveBlockNumber = await client.SystemStorage.Number(CancellationToken.None);
+                Logger.Information("Block Number: {BlockNumber}", primitiveBlockNumber.Value);
                 Thread.Sleep(3000);
             }
         }

@@ -39,7 +39,7 @@ namespace Ajuna.SDK.Demos.ServiceSubscription
             {
                  var newNumber = await systemControllerClient.GetNumber();
                  Logger.Information($"Number is: {newNumber.Value}");
-                 Thread.Sleep(2000);
+                 Thread.Sleep(3000);
             }
         }
     }
