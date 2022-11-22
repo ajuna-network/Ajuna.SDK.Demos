@@ -1,5 +1,6 @@
 ﻿using Ajuna.NetApi;
 using Ajuna.NetApi.Model.Extrinsics;
+using Ajuna.NetApi.Model.Rpc;
 using Ajuna.NetApi.Model.Types;
 using Ajuna.NetApi.Model.Types.Base;
 using Ajuna.NetApi.Model.Types.Primitive;
@@ -33,41 +34,25 @@ namespace Ajuna.SDK.Demos.NetWallet
             .CreateLogger();
         
         private static string NodeUrl = "ws://127.0.0.1:9944";
-
-        private static string _walletName = "AjunaWallet";
-        private static string _walletPassword = "aA1234dd";
-
+        
         public static async Task Main(string[] args)
         {
-            // Instantiate the client
-            var client = new SubstrateClientExt(new Uri(NodeUrl));
-
-            // Display Client Connection Status before connecting
-            Logger.Information($"Client Connection Status: {GetClientConnectionStatus(client)}");
-
-            await client.ConnectAsync();
-
-            // Display Client Connection Status after connecting
-            Logger.Information(client.IsConnected
-                ? "Client connected successfully"
-                : "Failed to connect to node. Exiting...");
-
-            if (!client.IsConnected)
-                return;
-
             // Setup for locally storing the wallet file
             SystemInteraction.ReadData = f => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, f));
             SystemInteraction.DataExists = f => File.Exists(Path.Combine(Environment.CurrentDirectory, f));
             SystemInteraction.ReadPersistent = f => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, f));
             SystemInteraction.PersistentExists = f => File.Exists(Path.Combine(Environment.CurrentDirectory, f));
             SystemInteraction.Persist = (f, c) => File.WriteAllText(Path.Combine(Environment.CurrentDirectory, f), c);
-
             
+                
+            string WalletName = "AjunaWallet";
+            string WalletPassword = "aA1234dd";
+            string MnemonicSeed = "caution juice atom organ advance problem want pledge someone senior holiday very";
+
             // Create Wallet 
             var wallet = new Wallet();
-            wallet.Create(_walletPassword, CreateMnemonicSeed(), KeyType.Sr25519,
-                Mnemonic.BIP39Wordlist.English, _walletName);
-                
+            wallet.Create(WalletPassword, MnemonicSeed, KeyType.Sr25519,
+                Mnemonic.BIP39Wordlist.English, WalletName);
 
             if (!wallet.IsCreated)
             {
@@ -77,15 +62,15 @@ namespace Ajuna.SDK.Demos.NetWallet
             
             Logger.Information("Wallet created successfully");
 
-            // Load walled from storage 
+            // Load wallet from storage 
             var ajunaWallet = new Wallet();
-            ajunaWallet.Load(_walletName);
+            ajunaWallet.Load(WalletName);
             
             Logger.Information($"Wallet is unlocked: {ajunaWallet.IsUnlocked}");
             
             // Unlock 
-            ajunaWallet.Unlock(_walletPassword);
-            
+            ajunaWallet.Unlock(WalletPassword);
+
             Logger.Information($"Wallet is unlocked: {ajunaWallet.IsUnlocked}");
 
             if (!wallet.IsUnlocked)
@@ -93,6 +78,12 @@ namespace Ajuna.SDK.Demos.NetWallet
                 Logger.Error("Could not unlock wallet. Exiting...");
                 return;
             }
+            
+            // Instantiate the client and connect to Node
+            SubstrateClientExt client = await InstantiateClientAndConnectAsync();
+
+            if (!client.IsConnected)
+                return;
 
             // Alice is always generous and will send us a small gift
             var accountAlice = new AccountId32();
@@ -153,18 +144,30 @@ namespace Ajuna.SDK.Demos.NetWallet
         
             var balanceTransferMethod =
                 BalancesCalls.Transfer(multiAddress, baseCampactU128);
-        
-            await client.Author.SubmitExtrinsicAsync(
+            
+            Action<string, ExtrinsicStatus> actionExtrinsicUpdate = (subscriptionId, extrinsicUpdate) => 
+                Logger.Information($"Extrinsic CallBack[{subscriptionId}]: {extrinsicUpdate}");
+
+            await client.Author.SubmitAndWatchExtrinsicAsync(
+                actionExtrinsicUpdate,
                 balanceTransferMethod,
                 senderAccount, new ChargeAssetTxPayment(0, 0), 64, CancellationToken.None);
         }
         
-        private static string CreateMnemonicSeed()
+        private static async Task<SubstrateClientExt>  InstantiateClientAndConnectAsync()
         {
-            var randomBytes = new byte[16];
-            new Random().NextBytes(randomBytes);
-            var mnemonicSeed = string.Join(' ', Mnemonic.MnemonicFromEntropy(randomBytes, Mnemonic.BIP39Wordlist.English));
-            return mnemonicSeed;
+            // Instantiate the client
+            var client = new SubstrateClientExt(new Uri(NodeUrl));
+
+            // Display Client Connection Status before connecting
+            Logger.Information( $"Client Connection Status: {GetClientConnectionStatus(client)}");
+
+            await client.ConnectAsync();
+           
+            // Display Client Connection Status after connecting
+            Logger.Information(client.IsConnected ? "Client connected successfully" : "Failed to connect to node. Exiting...");
+
+            return client;
         }
 
         private static string GetClientConnectionStatus(SubstrateClient client)
