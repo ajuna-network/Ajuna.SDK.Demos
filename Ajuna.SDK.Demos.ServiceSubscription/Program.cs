@@ -15,8 +15,8 @@ namespace Ajuna.SDK.Demos.ServiceSubscription
             .CreateLogger();
         
         // Websocket and API addresses of the Service layer - You need Ajuna.SDK.Demos.RestService running for this console app to run
-        private static String WebsocketUrl = "ws://localhost:61752/ws";
-        private static String ServiceUrl = "http://localhost:61752/";
+        private static string WebsocketUrl = "ws://localhost:61752/ws";
+        private static string ServiceUrl = "http://localhost:61752/";
         
         public static async Task Main(string[] args)
         {

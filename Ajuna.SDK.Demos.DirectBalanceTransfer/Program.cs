@@ -1,5 +1,6 @@
 ﻿using Ajuna.NetApi;
 using Ajuna.NetApi.Model.Extrinsics;
+using Ajuna.NetApi.Model.Rpc;
 using Ajuna.NetApi.Model.Types;
 using Ajuna.NetApi.Model.Types.Base;
 using Ajuna.NetApi.Model.Types.Primitive;
@@ -47,20 +48,8 @@ namespace Ajuna.SDK.Demos.DirectBalanceTransfer
 
         public static async Task Main(string[] args)
         {
-            var s = Utils.HexToByteArray("0x1cbfa731117739305198b39df275e37205edba9ff85f75c55990d92dda1cfebd");
-
-            // Instantiate the client
-            var client = new SubstrateClientExt(new Uri(NodeUrl));
-
-            // Display Client Connection Status before connecting
-            Logger.Information($"Client Connection Status: {GetClientConnectionStatus(client)}");
-
-            await client.ConnectAsync();
-
-            // Display Client Connection Status after connecting
-            Logger.Information(client.IsConnected
-                ? "Client connected successfully"
-                : "Failed to connect to node. Exiting...");
+            // Instantiate the client and connect to the Node
+            SubstrateClientExt client = await InstantiateClientAndConnectAsync();
 
             if (!client.IsConnected)
                 return;
@@ -96,17 +85,53 @@ namespace Ajuna.SDK.Demos.DirectBalanceTransfer
             var extrinsicMethod =
                 BalancesCalls.Transfer(multiAddressBob, amount);
 
+            // Post Extrinsic Callback to show balance for both accounts
+            Action<string, ExtrinsicStatus> actionExtrinsicUpdate =  (subscriptionId, extrinsicUpdate) => 
+                {
+                    // Fire only if state is Ready
+                    if (extrinsicUpdate.ExtrinsicState == ExtrinsicState.Ready)
+                    {
+                        Logger.Information("Firing post transfer Callback");
+
+                        client.SystemStorage.Account(accountAlice, CancellationToken.None).ContinueWith(
+                            (task) =>
+                                Logger.Information($"Alice's Free Balance after transaction = {task.Result.Data.Free.Value}")
+                            
+                            );
+                        
+                        
+                        client.SystemStorage.Account(accountBob, CancellationToken.None).ContinueWith(
+                            (task) =>
+                                Logger.Information($"Bob's Free Balance after transaction = {task.Result.Data.Free.Value}")
+                            
+                        );
+                    }
+                };
+
             // Alice to Bob Transaction
-            await client.Author.SubmitExtrinsicAsync(extrinsicMethod, Alice, new ChargeAssetTxPayment(0, 0), 128,
-                CancellationToken.None);
+            await client.Author.SubmitAndWatchExtrinsicAsync(
+                actionExtrinsicUpdate,
+                extrinsicMethod,
+                Alice, new ChargeAssetTxPayment(0, 0), 128, CancellationToken.None);
 
-            Thread.Sleep(10000);
 
-            accountInfoAlice = await client.SystemStorage.Account(accountAlice, CancellationToken.None);
-            Logger.Information($"Alice Free Balance after transaction = {accountInfoAlice.Data.Free.Value}");
+            Console.ReadLine();
+        }
+        
+        private static async Task<SubstrateClientExt>  InstantiateClientAndConnectAsync()
+        {
+            // Instantiate the client
+            var client = new SubstrateClientExt(new Uri(NodeUrl));
 
-            accountInfoBob = await client.SystemStorage.Account(accountBob, CancellationToken.None);
-            Logger.Information($"Bob Free Balance after transaction = {accountInfoBob.Data.Free.Value}");
+            // Display Client Connection Status before connecting
+            Logger.Information( $"Client Connection Status: {GetClientConnectionStatus(client)}");
+
+            await client.ConnectAsync();
+           
+            // Display Client Connection Status after connecting
+            Logger.Information(client.IsConnected ? "Client connected successfully" : "Failed to connect to node. Exiting...");
+
+            return client;
         }
 
         private static string GetClientConnectionStatus(SubstrateClient client)
