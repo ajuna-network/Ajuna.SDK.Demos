@@ -26,6 +26,7 @@ These projects were generated against [Substrate Node](https://github.com/parity
 #### Node Direct Access
 This folder contains three demos that use our `SubstrateClientExt` (part of `SubstrateNET.NetApi`) to directly interact with the node.
 
+- `Ajuna.SDK.Demos.NetApi` which shows how to connect to a Substrate Node.
 - `Ajuna.SDK.Demos.DirectPolling` which shows how to directly poll the node for storage changes.
 - `Ajuna.SDK.Demos.DirectSubscription` which shows how to directly subscribe to the node for storage changes.
 - `Ajuna.SDK.Demos.DirectBalanceTransfer` which shows how to do a balance transfer from Alice to Bob using the `SubstrateClientExt`. 
@@ -36,6 +37,9 @@ This folder contains two demos that use a `RestClient` (part of `SubstrateNET.Re
 - `Ajuna.SDK.Demos.ServicePolling` which shows how to poll the node for storage changes using the `RestService`.
 - `Ajuna.SDK.Demos.ServiceSubscription` which shows how to directly subscribe to the node for storage changes using the `RestService`.
 
+#### Ajuna NetWallet Example
+
+- `Ajuna.SDK.Demos.NetWallet` which shows how to use the NetWallet to create, store an account and retrieve it in order to execute an extrinsic - Balance Transfer.
 
 ## How to get started 
 
