@@ -16,12 +16,21 @@ The Solution has three folders:
 
 #### Scaffolded Projects 
 
-This folder contains the generated projects of the Ajuna.SDK:
+This folder contains the generated projects of the Ajuna.SDK with [SubstrateNET](https://github.com/ajuna-network/SubstrateNET) repo as a submodule:
 - [SubstrateNET.NetApi](https://github.com/ajuna-network/Ajuna.SDK#ajunanetapiext)
 - [SubstrateNET.RestService](https://github.com/ajuna-network/Ajuna.SDK#ajunarestservice)
 - [SubstrateNET.RestClient](https://github.com/ajuna-network/Ajuna.SDK#ajunarestclient)
 
 These projects were generated against [Substrate Node](https://github.com/paritytech/substrate) (monthly-2022-11).
+
+Please make sure that you have checked out the _monthly-2022-11_ version ob the SubstrateNET repo.
+
+In order to do this enter the SubstrateNET folder within the solution folder and checkout the respective tag: 
+
+```bash
+cd SubstrateNET
+git checkout monthly-2022-11
+```
 
 #### Node Direct Access
 This folder contains three demos that use our `SubstrateClientExt` (part of `SubstrateNET.NetApi`) to directly interact with the node.
