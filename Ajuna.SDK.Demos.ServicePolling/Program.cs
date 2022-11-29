@@ -38,7 +38,7 @@ namespace Ajuna.SDK.Demos.ServiceSubscription
             while (true)
             {
                  var newNumber = await systemControllerClient.GetNumber();
-                 Logger.Information($"Number is: {newNumber.Value}");
+                 Logger.Information("Block Number is: {blockNumber}",newNumber.Value);
                  Thread.Sleep(3000);
             }
         }

@@ -66,12 +66,12 @@ namespace Ajuna.SDK.Demos.NetWallet
             var ajunaWallet = new Wallet();
             ajunaWallet.Load(WalletName);
             
-            Logger.Information($"Wallet is unlocked: {ajunaWallet.IsUnlocked}");
+            Logger.Information("Wallet is unlocked: {status}",ajunaWallet.IsUnlocked);
             
             // Unlock 
             ajunaWallet.Unlock(WalletPassword);
 
-            Logger.Information($"Wallet is unlocked: {ajunaWallet.IsUnlocked}");
+            Logger.Information("Wallet is unlocked: {status}",ajunaWallet.IsUnlocked);
 
             if (!wallet.IsUnlocked)
             {
@@ -95,7 +95,7 @@ namespace Ajuna.SDK.Demos.NetWallet
             // Get Alice's Balance
             // Wallet' Account's has not been created yet and does not have a Balance
             var accountInfoAlice = await client.SystemStorage.Account(accountAlice, CancellationToken.None);
-            Logger.Information($"Alice Free Balance before transaction = {accountInfoAlice.Data.Free.Value.ToString()}");
+            Logger.Information("Alice Free Balance before transaction = {balance}",accountInfoAlice.Data.Free.Value.ToString());
            
             // Transfer Money from Alice to Wallet
             await TransferAsync(client, Alice, wallet.Account, 400000000000000);
@@ -105,10 +105,10 @@ namespace Ajuna.SDK.Demos.NetWallet
 
             // Let's check the accounts again after the transfer
             accountInfoAlice = await client.SystemStorage.Account(accountAlice, CancellationToken.None);
-            Logger.Information($"Alice Free Balance after sending to Wallet = {accountInfoAlice.Data.Free.Value.ToString()}");
+            Logger.Information("Alice Free Balance after sending to Wallet = {balance}",accountInfoAlice.Data.Free.Value.ToString());
            
             var  accountInfoWallet = await client.SystemStorage.Account(accountWallet, CancellationToken.None);
-            Logger.Information($"Wallet's Account Free Balance after receiving from Alice = {accountInfoWallet.Data.Free.Value.ToString()}");
+            Logger.Information("Wallet's Account Free Balance after receiving from Alice = {balance}",accountInfoWallet.Data.Free.Value.ToString());
 
             //Let's give something back to Alice!
             // Transfer Money from Alice to Wallet
@@ -118,10 +118,10 @@ namespace Ajuna.SDK.Demos.NetWallet
 
             // Let's check the accounts again after the transfer
             accountInfoAlice = await client.SystemStorage.Account(accountAlice, CancellationToken.None);
-            Logger.Information($"Alice Free Balance after receiving from Wallet = {accountInfoAlice.Data.Free.Value.ToString()}");
+            Logger.Information("Alice Free Balance after receiving from Wallet = {balance}",accountInfoAlice.Data.Free.Value.ToString());
            
             accountInfoWallet = await client.SystemStorage.Account(accountWallet, CancellationToken.None);
-            Logger.Information($"Wallets Account Free Balance after sending to Alice = {accountInfoWallet.Data.Free.Value.ToString()}");
+            Logger.Information("Wallets Account Free Balance after sending to Alice = {balance}",accountInfoWallet.Data.Free.Value.ToString());
 
             Console.ReadLine();
         }

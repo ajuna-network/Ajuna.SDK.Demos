@@ -64,7 +64,7 @@ namespace Ajuna.SDK.Demos.ServiceSubscription
             var primitiveBlockNumber = new NetApi.Model.Types.Primitive.U32();
             primitiveBlockNumber.Create(Utils.HexToByteArray(message.Data));
 
-            Logger.Information("New Block Number: " + primitiveBlockNumber.Value);
+            Logger.Information("New Block Number: {blockNumber}",primitiveBlockNumber.Value);
         }
     }
 }

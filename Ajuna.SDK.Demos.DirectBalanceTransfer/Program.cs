@@ -67,11 +67,11 @@ namespace Ajuna.SDK.Demos.DirectBalanceTransfer
            
             // Get Alice's Balance
             var accountInfoAlice = await client.SystemStorage.Account(accountAlice, CancellationToken.None);
-            Logger.Information($"Alice Free Balance before transaction = {accountInfoAlice.Data.Free.Value.ToString()}");
+            Logger.Information("Alice Free Balance before transaction = {balance}",accountInfoAlice.Data.Free.Value.ToString());
            
             // Get Bob's Balance
             var accountInfoBob = await client.SystemStorage.Account(accountBob, CancellationToken.None);
-            Logger.Information($"Bob Free Balance before transaction = {accountInfoBob.Data.Free.Value.ToString()}");
+            Logger.Information("Bob Free Balance before transaction = {balance}",accountInfoBob.Data.Free.Value.ToString());
 
             // Instantiate a MultiAddress for Bob
             var multiAddressBob = new EnumMultiAddress();
@@ -95,14 +95,14 @@ namespace Ajuna.SDK.Demos.DirectBalanceTransfer
 
                         client.SystemStorage.Account(accountAlice, CancellationToken.None).ContinueWith(
                             (task) =>
-                                Logger.Information($"Alice's Free Balance after transaction = {task.Result.Data.Free.Value}")
+                                Logger.Information("Alice's Free Balance after transaction = {balance}",task.Result.Data.Free.Value)
                             
                             );
                         
                         
                         client.SystemStorage.Account(accountBob, CancellationToken.None).ContinueWith(
                             (task) =>
-                                Logger.Information($"Bob's Free Balance after transaction = {task.Result.Data.Free.Value}")
+                                Logger.Information("Bob's Free Balance after transaction = {balance}",task.Result.Data.Free.Value)
                             
                         );
                     }
